@@ -1,0 +1,38 @@
+﻿@model CursoMVC.Models.Inscripcion
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Inscripcion</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nota)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nota)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Curso)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Curso.CursoID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Alumno)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Alumno.Apellidos)
+        </dd>
+    </dl>
+</div>
+
+ 
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.InscripcionID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

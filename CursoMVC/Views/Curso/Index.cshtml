@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CursoMVC.Models.Curso>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="margin-bottom: 20px;">LISTADO DE CURSOS</h1>
+
+<p>
+    <a asp-action="Create"class="btn-success" style="border:groove">AÑADIR CURSO</a>
+</p>
+
+    <table class="table , text-center" style="background-color:whitesmoke;margin-top:20px;">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Titulo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Creditos)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Creditos)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CursoID"><span class="glyphicon glyphicon-edit" style="color:forestgreen;"> </span></a> 
+                        <a asp-action="Details" asp-route-id="@item.CursoID"><span class="glyphicon glyphicon-info-sign" style="color:blue;"> </span></a> 
+                        <a asp-action="Delete" asp-route-id="@item.CursoID"><span class="glyphicon glyphicon-trash" style="color:red;"> </span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CursoMVC.Models.Inscripcion>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="margin-bottom: 20px;">LISTADO DE INSCRIPCIONES</h1>
+
+<p>
+    <a asp-action="Create" class="btn-success" style="border:groove">AÑADIR INSCRIPCIÓN</a>
+</p>
+
+    <table class="table , text-center" style="background-color:whitesmoke;margin-top:20px;">
+        <thead>
+            <tr>
+                
+                <th>
+                    @Html.DisplayNameFor(model => model.Curso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Alumno)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Curso.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Alumno.DNI)
+                       
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.InscripcionID"><span class="glyphicon glyphicon-edit" style="color:forestgreen;"> </span></a>
+                        <a asp-action="Details" asp-route-id="@item.InscripcionID"><span class="glyphicon glyphicon-info-sign" style="color:blue;"> </span></a>
+                        <a asp-action="Delete" asp-route-id="@item.InscripcionID"><span class="glyphicon glyphicon-trash" style="color:red;"> </span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
