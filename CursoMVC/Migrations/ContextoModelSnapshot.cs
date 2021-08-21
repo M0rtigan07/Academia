@@ -26,20 +26,20 @@ namespace CursoMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Apellidos")
+                    b.Property<string>("AlumnoApellidos")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DNI")
+                    b.Property<string>("AlumnoDNI")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AlumnoNombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FechaDeInscripcion")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AlumnoID");
 
@@ -77,7 +77,7 @@ namespace CursoMVC.Migrations
                     b.Property<int>("CursoID")
                         .HasColumnType("int");
 
-                    b.Property<string>("DNI")
+                    b.Property<string>("DocenteDNI")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -98,8 +98,17 @@ namespace CursoMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AlumnoID")
+                    b.Property<string>("AlumnoApellidos")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AlumnoDNI")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AlumnoID")
                         .HasColumnType("int");
+
+                    b.Property<string>("AlumnoNombre")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CursoID")
                         .HasColumnType("int");
@@ -131,9 +140,7 @@ namespace CursoMVC.Migrations
                 {
                     b.HasOne("CursoMVC.Models.Alumno", "Alumno")
                         .WithMany("Inscripcion")
-                        .HasForeignKey("AlumnoID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AlumnoID");
 
                     b.HasOne("CursoMVC.Models.Curso", "Curso")
                         .WithMany("Inscripcion")

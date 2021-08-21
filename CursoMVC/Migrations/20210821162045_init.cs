@@ -13,9 +13,9 @@ namespace CursoMVC.Migrations
                 {
                     AlumnoID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Apellidos = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AlumnoDNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AlumnoApellidos = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AlumnoNombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaDeInscripcion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -43,10 +43,10 @@ namespace CursoMVC.Migrations
                 {
                     DocenteID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    DocenteDNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CursoID = table.Column<int>(type: "int", nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Apellidos = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DNI = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Apellidos = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,8 +66,11 @@ namespace CursoMVC.Migrations
                     InscripcionID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CursoID = table.Column<int>(type: "int", nullable: false),
-                    AlumnoID = table.Column<int>(type: "int", nullable: false),
-                    Nota = table.Column<int>(type: "int", nullable: true)
+                    AlumnoDNI = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AlumnoApellidos = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AlumnoNombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nota = table.Column<int>(type: "int", nullable: true),
+                    AlumnoID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -77,7 +80,7 @@ namespace CursoMVC.Migrations
                         column: x => x.AlumnoID,
                         principalTable: "Alumno",
                         principalColumn: "AlumnoID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Inscripcion_Curso_CursoID",
                         column: x => x.CursoID,

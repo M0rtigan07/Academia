@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,11 +14,12 @@ namespace CursoMVC.Models
         [Required(ErrorMessage = "El valor es obligatorio")]
         [RegularExpression("^(([A-Z]\\d{8})|(\\d{8}[A-Z]))$", ErrorMessage = "DNI incorrecto")]
         [Display(Name = "DNI")]
-        public string DNI { get; set; }
+        public string AlumnoDNI { get; set; }
         [Required(ErrorMessage = "El valor es obligatorio")]
-        public string Apellidos { get; set; }
+        [Display(Name = "Apellidos")]
+        public string AlumnoApellidos { get; set; }
         [Required(ErrorMessage = "El valor es obligatorio")]
-        public string Nombre { get; set; }
+        public string AlumnoNombre { get; set; }
 
         [Required(ErrorMessage = "El valor es obligatorio")]
         [Display(Name = "Fecha de inscripción")]

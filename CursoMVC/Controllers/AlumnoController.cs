@@ -54,7 +54,7 @@ namespace CursoMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AlumnoID,DNI,Apellidos,Nombre,FechaDeInscripcion")] Alumno alumno)
+        public async Task<IActionResult> Create([Bind("AlumnoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre,FechaDeInscripcion")] Alumno alumno)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace CursoMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AlumnoID,DNI,Apellidos,Nombre,FechaDeInscripcion")] Alumno alumno)
+        public async Task<IActionResult> Edit(int id, [Bind("AlumnoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre,FechaDeInscripcion")] Alumno alumno)
         {
             if (id != alumno.AlumnoID)
             {

@@ -11,6 +11,24 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AlumnoDNI)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AlumnoDNI)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AlumnoApellidos)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AlumnoApellidos)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AlumnoNombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AlumnoNombre)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Nota)
         </dt>
         <dd class = "col-sm-10">
@@ -20,18 +38,10 @@
             @Html.DisplayNameFor(model => model.Curso)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Curso.CursoID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Alumno)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Alumno.Apellidos)
+            @Html.DisplayFor(model => model.Curso.Titulo)
         </dd>
     </dl>
 </div>
-
- 
 <div>
     <a asp-action="Edit" asp-route-id="@Model.InscripcionID">Edit</a> |
     <a asp-action="Index">Back to List</a>

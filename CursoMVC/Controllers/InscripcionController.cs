@@ -22,7 +22,7 @@ namespace CursoMVC.Controllers
         // GET: Inscripcion
         public async Task<IActionResult> Index()
         {
-            var contexto = _context.Inscripciones.Include(i => i.Alumno).Include(i => i.Curso);
+            var contexto = _context.Inscripciones.Include(i => i.Curso);
             return View(await contexto.ToListAsync());
         }
 
@@ -35,7 +35,6 @@ namespace CursoMVC.Controllers
             }
 
             var inscripcion = await _context.Inscripciones
-                .Include(i => i.Alumno)
                 .Include(i => i.Curso)
                 .FirstOrDefaultAsync(m => m.InscripcionID == id);
             if (inscripcion == null)
@@ -43,16 +42,13 @@ namespace CursoMVC.Controllers
                 return NotFound();
             }
 
-            
-
             return View(inscripcion);
         }
 
         // GET: Inscripcion/Create
         public IActionResult Create()
         {
-            ViewData["AlumnoID"] = new SelectList(_context.Alumnos, "AlumnoID", "Apellidos");
-            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "Titulo");
+            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "CursoID");
             return View();
         }
 
@@ -61,7 +57,7 @@ namespace CursoMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InscripcionID,CursoID,AlumnoID,Nota")] Inscripcion inscripcion)
+        public async Task<IActionResult> Create([Bind("InscripcionID,CursoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre,Nota")] Inscripcion inscripcion)
         {
             if (ModelState.IsValid)
             {
@@ -69,8 +65,7 @@ namespace CursoMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AlumnoID"] = new SelectList(_context.Alumnos, "AlumnoID", "Apellidos", inscripcion.AlumnoID);
-            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "Titulo", inscripcion.CursoID);
+            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "CursoID", inscripcion.CursoID);
             return View(inscripcion);
         }
 
@@ -87,8 +82,7 @@ namespace CursoMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["AlumnoID"] = new SelectList(_context.Alumnos, "AlumnoID", "Apellidos", inscripcion.AlumnoID);
-            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "Titulo", inscripcion.CursoID);
+            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "CursoID", inscripcion.CursoID);
             return View(inscripcion);
         }
 
@@ -97,7 +91,7 @@ namespace CursoMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("InscripcionID,CursoID,AlumnoID,Nota")] Inscripcion inscripcion)
+        public async Task<IActionResult> Edit(int id, [Bind("InscripcionID,CursoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre,Nota")] Inscripcion inscripcion)
         {
             if (id != inscripcion.InscripcionID)
             {
@@ -124,7 +118,6 @@ namespace CursoMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AlumnoID"] = new SelectList(_context.Alumnos, "AlumnoID", "Apellidos", inscripcion.AlumnoID);
             ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "CursoID", inscripcion.CursoID);
             return View(inscripcion);
         }
@@ -138,7 +131,6 @@ namespace CursoMVC.Controllers
             }
 
             var inscripcion = await _context.Inscripciones
-                .Include(i => i.Alumno)
                 .Include(i => i.Curso)
                 .FirstOrDefaultAsync(m => m.InscripcionID == id);
             if (inscripcion == null)

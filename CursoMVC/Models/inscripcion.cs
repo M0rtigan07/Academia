@@ -20,8 +20,12 @@ namespace CursoMVC.Models
 
         [Display(Name = "Curso")]
         public int CursoID { get; set; }
-        [Display(Name = "Alumno")]
-        public int AlumnoID { get; set; }
+        [Display(Name = "DNI")]
+        public string AlumnoDNI { get; set; }
+        [Display(Name = "Apellidos del alumno")]
+        public string AlumnoApellidos { get; set; }
+        [Display(Name = "Nombre del alumno")]
+        public string AlumnoNombre { get; set; }
 
         public Nota? Nota { get; set; }
 
