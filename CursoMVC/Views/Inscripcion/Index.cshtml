@@ -4,25 +4,37 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 style="margin-bottom: 20px;">LISTADO DE INSCIPCIONES</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class=" btn btn-success">AÑADIR INSCRIPCION</a>
 </p>
-<table class="table">
+<form asp-controller="Inscripcion" asp-action="Index">
+    <div class="jumbotron">
+
+        <p> <span class="glyphicon glyphicon-search"> </span>  Nota: <input type="text" name="busquedaNota" /></p>
+        <p> <span class="glyphicon glyphicon-search"> </span>  DNI: <input type="text" name="busquedaPorAlumno" /></p>
+        <p> <span class="glyphicon glyphicon-search"> </span>  Curso: <input type="text" name="busquedaPorCurso" /></p>
+        <input type="submit" class="btn-info" value="Buscar Inscripción" />
+    </div>
+</form>
+<table class="table , text-center" style="background-color:whitesmoke;margin-top:20px;">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AlumnoDNI)
+                @Html.DisplayNameFor(model => model.FechaDeInscripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alumno)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AlumnoApellidos)
             </th>
-           
-           
+          
             <th>
                 @Html.DisplayNameFor(model => model.Curso)
             </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -30,20 +42,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.AlumnoDNI)
+                @Html.DisplayFor(modelItem => item.FechaDeInscripcion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AlumnoApellidos)
+                @Html.DisplayFor(modelItem => item.Alumno.AlumnoDNI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alumno.AlumnoApellidos)
             </td>
            
-          
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Curso.Titulo)
             </td>
+            
             <td>
-                <a asp-action="Edit" asp-route-id="@item.InscripcionID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.InscripcionID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.InscripcionID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.InscripcionID"><span class="glyphicon glyphicon-edit" style="color:forestgreen;"> </span></a> 
+                <a asp-action="Details" asp-route-id="@item.InscripcionID"><span class="glyphicon glyphicon-info-sign" style="color:blue;"> </span></a> 
+                <a asp-action="Delete" asp-route-id="@item.InscripcionID"><span class="glyphicon glyphicon-trash" style="color:red;"> </span></a>
             </td>
         </tr>
 }

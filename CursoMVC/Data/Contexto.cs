@@ -16,6 +16,7 @@ namespace CursoMVC.Data
         public DbSet<Alumno> Alumnos { get; set; }
         public DbSet<Docente> Docentes { get; set; }
         public DbSet<Inscripcion> Inscripciones { get; set; }
+        public DbSet<Nota> Notas { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,7 @@ namespace CursoMVC.Data
             modelBuilder.Entity<Alumno>().ToTable("Alumno");
             modelBuilder.Entity<Docente>().ToTable("Docente");
             modelBuilder.Entity<Inscripcion>().ToTable("Inscripcion");
+            modelBuilder.Entity<Nota>().ToTable("Nota");
         }
 
     }

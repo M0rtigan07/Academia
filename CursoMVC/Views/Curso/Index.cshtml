@@ -7,8 +7,16 @@
 <h1 style="margin-bottom: 20px;">LISTADO DE CURSOS</h1>
 
 <p>
-    <a asp-action="Create"class="btn-success" style="border:groove">AÑADIR CURSO</a>
+    <a asp-action="Create"class=" btn btn-success">AÑADIR CURSO</a>
 </p>
+<form asp-controller="Curso" asp-action="Index">
+    <div class="jumbotron">
+        
+        <p> <span class="glyphicon glyphicon-search"> </span>  Curso: <input type="text" name="busquedaCurso" /></p>
+
+        <input type="submit" class="btn-info" value="Buscar Curso" />
+    </div>
+</form>
 
     <table class="table , text-center" style="background-color:whitesmoke;margin-top:20px;">
         <thead>
@@ -16,9 +24,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Titulo)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Creditos)
-                </th>
+                
                 <th></th>
             </tr>
         </thead>
@@ -29,9 +35,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Titulo)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Creditos)
-                    </td>
+                    
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.CursoID"><span class="glyphicon glyphicon-edit" style="color:forestgreen;"> </span></a> 
                         <a asp-action="Details" asp-route-id="@item.CursoID"><span class="glyphicon glyphicon-info-sign" style="color:blue;"> </span></a> 

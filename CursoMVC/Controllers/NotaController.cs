@@ -10,28 +10,22 @@ using CursoMVC.Models;
 
 namespace CursoMVC.Controllers
 {
-    public class CursoController : Controller
+    public class NotaController : Controller
     {
         private readonly Contexto _context;
 
-        public CursoController(Contexto context)
+        public NotaController(Contexto context)
         {
             _context = context;
         }
 
-        // GET: Curso
-        public async Task<IActionResult> Index(string busquedaCurso)
+        // GET: Nota
+        public async Task<IActionResult> Index()
         {
-            var v_cursos = from c in _context.Cursos
-                           select c;
-            if(!String.IsNullOrEmpty(busquedaCurso))
-            {
-                v_cursos = v_cursos.Where(s => s.Titulo.Contains(busquedaCurso));
-            }
-            return View(await v_cursos.ToListAsync());
+            return View(await _context.Notas.ToListAsync());
         }
 
-        // GET: Curso/Details/5
+        // GET: Nota/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,39 +33,39 @@ namespace CursoMVC.Controllers
                 return NotFound();
             }
 
-            var curso = await _context.Cursos
-                .FirstOrDefaultAsync(m => m.CursoID == id);
-            if (curso == null)
+            var nota = await _context.Notas
+                .FirstOrDefaultAsync(m => m.NotaID == id);
+            if (nota == null)
             {
                 return NotFound();
             }
 
-            return View(curso);
+            return View(nota);
         }
 
-        // GET: Curso/Create
+        // GET: Nota/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Curso/Create
+        // POST: Nota/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CursoID,Titulo,Creditos")] Curso curso)
+        public async Task<IActionResult> Create([Bind("NotaID,calificacion")] Nota nota)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(curso);
+                _context.Add(nota);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(curso);
+            return View(nota);
         }
 
-        // GET: Curso/Edit/5
+        // GET: Nota/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,22 +73,22 @@ namespace CursoMVC.Controllers
                 return NotFound();
             }
 
-            var curso = await _context.Cursos.FindAsync(id);
-            if (curso == null)
+            var nota = await _context.Notas.FindAsync(id);
+            if (nota == null)
             {
                 return NotFound();
             }
-            return View(curso);
+            return View(nota);
         }
 
-        // POST: Curso/Edit/5
+        // POST: Nota/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CursoID,Titulo,Creditos")] Curso curso)
+        public async Task<IActionResult> Edit(int id, [Bind("NotaID,calificacion")] Nota nota)
         {
-            if (id != curso.CursoID)
+            if (id != nota.NotaID)
             {
                 return NotFound();
             }
@@ -103,12 +97,12 @@ namespace CursoMVC.Controllers
             {
                 try
                 {
-                    _context.Update(curso);
+                    _context.Update(nota);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CursoExists(curso.CursoID))
+                    if (!NotaExists(nota.NotaID))
                     {
                         return NotFound();
                     }
@@ -119,10 +113,10 @@ namespace CursoMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(curso);
+            return View(nota);
         }
 
-        // GET: Curso/Delete/5
+        // GET: Nota/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,30 +124,30 @@ namespace CursoMVC.Controllers
                 return NotFound();
             }
 
-            var curso = await _context.Cursos
-                .FirstOrDefaultAsync(m => m.CursoID == id);
-            if (curso == null)
+            var nota = await _context.Notas
+                .FirstOrDefaultAsync(m => m.NotaID == id);
+            if (nota == null)
             {
                 return NotFound();
             }
 
-            return View(curso);
+            return View(nota);
         }
 
-        // POST: Curso/Delete/5
+        // POST: Nota/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var curso = await _context.Cursos.FindAsync(id);
-            _context.Cursos.Remove(curso);
+            var nota = await _context.Notas.FindAsync(id);
+            _context.Notas.Remove(nota);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CursoExists(int id)
+        private bool NotaExists(int id)
         {
-            return _context.Cursos.Any(e => e.CursoID == id);
+            return _context.Notas.Any(e => e.NotaID == id);
         }
     }
 }

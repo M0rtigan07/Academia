@@ -38,9 +38,6 @@ namespace CursoMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaDeInscripcion")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("AlumnoID");
 
                     b.ToTable("Alumno");
@@ -98,13 +95,10 @@ namespace CursoMVC.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AlumnoApellidos")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AlumnoApellidos")
+                        .HasColumnType("int");
 
-                    b.Property<string>("AlumnoDNI")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("AlumnoID")
+                    b.Property<int>("AlumnoID")
                         .HasColumnType("int");
 
                     b.Property<string>("AlumnoNombre")
@@ -113,8 +107,14 @@ namespace CursoMVC.Migrations
                     b.Property<int>("CursoID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Nota")
+                    b.Property<DateTime>("FechaDeInscripcion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NotaID")
                         .HasColumnType("int");
+
+                    b.Property<string>("calificacion")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("InscripcionID");
 
@@ -122,7 +122,24 @@ namespace CursoMVC.Migrations
 
                     b.HasIndex("CursoID");
 
+                    b.HasIndex("NotaID");
+
                     b.ToTable("Inscripcion");
+                });
+
+            modelBuilder.Entity("CursoMVC.Models.Nota", b =>
+                {
+                    b.Property<int>("NotaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("calificacion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NotaID");
+
+                    b.ToTable("Nota");
                 });
 
             modelBuilder.Entity("CursoMVC.Models.Docente", b =>
@@ -140,7 +157,9 @@ namespace CursoMVC.Migrations
                 {
                     b.HasOne("CursoMVC.Models.Alumno", "Alumno")
                         .WithMany("Inscripcion")
-                        .HasForeignKey("AlumnoID");
+                        .HasForeignKey("AlumnoID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CursoMVC.Models.Curso", "Curso")
                         .WithMany("Inscripcion")
@@ -148,9 +167,17 @@ namespace CursoMVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CursoMVC.Models.Nota", "Nota")
+                        .WithMany("Inscripcion")
+                        .HasForeignKey("NotaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Alumno");
 
                     b.Navigation("Curso");
+
+                    b.Navigation("Nota");
                 });
 
             modelBuilder.Entity("CursoMVC.Models.Alumno", b =>
@@ -162,6 +189,11 @@ namespace CursoMVC.Migrations
                 {
                     b.Navigation("Docente");
 
+                    b.Navigation("Inscripcion");
+                });
+
+            modelBuilder.Entity("CursoMVC.Models.Nota", b =>
+                {
                     b.Navigation("Inscripcion");
                 });
 #pragma warning restore 612, 618

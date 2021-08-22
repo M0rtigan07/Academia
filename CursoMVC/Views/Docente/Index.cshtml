@@ -4,50 +4,55 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 style="margin-bottom: 20px;">LISTADO DE DOCENTES</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class=" btn btn-success">AÑADIR DOCENTE</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DocenteDNI)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellidos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Curso)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DocenteDNI)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellidos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Curso.CursoID)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DocenteID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.DocenteID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.DocenteID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<form asp-controller="Docente" asp-action="Index">
+    <div class="jumbotron">
+        <p><span class="glyphicon glyphicon-search"> </span>  DNI: <input type="text" name="busquedaDocenteDNI" /></p>
+        <p> <span class="glyphicon glyphicon-search"> </span>  Apellido: <input type="text" name="busquedaDocente" /></p>
+
+        <input type="submit" class="btn-info" value="Buscar Docente" />
+    </div>
+</form>
+    <table class="table , text-center" style="background-color:whitesmoke;margin-top:20px;">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DocenteDNI)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Apellidos)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Curso)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocenteDNI)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellidos)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Curso.Titulo)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.DocenteID"><span class="glyphicon glyphicon-edit" style="color:forestgreen;"> </span></a> 
+                        <a asp-action="Details" asp-route-id="@item.DocenteID"><span class="glyphicon glyphicon-info-sign" style="color:blue;"> </span></a> 
+                        <a asp-action="Delete" asp-route-id="@item.DocenteID"><span class="glyphicon glyphicon-trash" style="color:red;"> </span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

@@ -20,10 +20,24 @@ namespace CursoMVC.Controllers
         }
 
         // GET: Inscripcion
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string busquedaNota, string busquedaPorAlumno, string busquedaPorCurso)
         {
-            var contexto = _context.Inscripciones.Include(i => i.Curso);
-            return View(await contexto.ToListAsync());
+            var v_inscripciones = from m in _context.Inscripciones
+                                  select m;
+            v_inscripciones = _context.Inscripciones.Include(i => i.Alumno).Include(i => i.Curso).Include(i => i.Nota);
+            if(!String.IsNullOrEmpty(busquedaNota))
+            {
+                v_inscripciones = v_inscripciones.Where(n => n.Nota.calificacion.Contains(busquedaNota));
+            }
+            if(!String.IsNullOrEmpty(busquedaPorAlumno))
+            {
+                v_inscripciones = v_inscripciones.Where(a => a.Alumno.AlumnoDNI.Contains(busquedaPorAlumno));
+            }
+            if(!String.IsNullOrEmpty(busquedaPorCurso))
+            {
+                v_inscripciones = v_inscripciones.Where(c => c.Curso.Titulo.Contains(busquedaPorCurso));
+            }
+            return View(await v_inscripciones.ToListAsync());
         }
 
         // GET: Inscripcion/Details/5
@@ -35,7 +49,9 @@ namespace CursoMVC.Controllers
             }
 
             var inscripcion = await _context.Inscripciones
+                .Include(i => i.Alumno)
                 .Include(i => i.Curso)
+                .Include(i => i.Nota)
                 .FirstOrDefaultAsync(m => m.InscripcionID == id);
             if (inscripcion == null)
             {
@@ -48,7 +64,9 @@ namespace CursoMVC.Controllers
         // GET: Inscripcion/Create
         public IActionResult Create()
         {
-            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "CursoID");
+            ViewData["AlumnoID"] = new SelectList(_context.Alumnos, "AlumnoID", "AlumnoDNI","AlumnoNombre", "AlumnoApellidos");
+            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "Titulo");
+            ViewData["NotaID"] = new SelectList(_context.Notas, "NotaID", "calificacion");
             return View();
         }
 
@@ -57,7 +75,7 @@ namespace CursoMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InscripcionID,CursoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre,Nota")] Inscripcion inscripcion)
+        public async Task<IActionResult> Create([Bind("InscripcionID,FechaDeInscripcion,CursoID,AlumnoID,NotaID,AlumnoApellidos,AlumnoNombre,calificacion")] Inscripcion inscripcion)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +83,9 @@ namespace CursoMVC.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "CursoID", inscripcion.CursoID);
+            ViewData["AlumnoID"] = new SelectList(_context.Alumnos, "AlumnoID", "AlumnoDNI", inscripcion.AlumnoID);
+            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "Titulo", inscripcion.CursoID);
+            ViewData["NotaID"] = new SelectList(_context.Notas, "NotaID", "calificacion", inscripcion.NotaID);
             return View(inscripcion);
         }
 
@@ -82,7 +102,9 @@ namespace CursoMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "CursoID", inscripcion.CursoID);
+            ViewData["AlumnoID"] = new SelectList(_context.Alumnos, "AlumnoID", "AlumnoDNI",  inscripcion.AlumnoID);
+            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "Titulo", inscripcion.CursoID);
+            ViewData["NotaID"] = new SelectList(_context.Notas, "NotaID", "calificacion", inscripcion.NotaID);
             return View(inscripcion);
         }
 
@@ -91,7 +113,7 @@ namespace CursoMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("InscripcionID,CursoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre,Nota")] Inscripcion inscripcion)
+        public async Task<IActionResult> Edit(int id, [Bind("InscripcionID,FechaDeInscripcion,CursoID,AlumnoID,NotaID,AlumnoApellidos,AlumnoNombre,calificacion")] Inscripcion inscripcion)
         {
             if (id != inscripcion.InscripcionID)
             {
@@ -118,7 +140,9 @@ namespace CursoMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "CursoID", inscripcion.CursoID);
+            ViewData["AlumnoID"] = new SelectList(_context.Alumnos, "AlumnoID", "AlumnoDNI", inscripcion.AlumnoID);
+            ViewData["CursoID"] = new SelectList(_context.Cursos, "CursoID", "Titulo", inscripcion.CursoID);
+            ViewData["NotaID"] = new SelectList(_context.Notas, "NotaID", "calificacion", inscripcion.NotaID);
             return View(inscripcion);
         }
 
@@ -131,7 +155,9 @@ namespace CursoMVC.Controllers
             }
 
             var inscripcion = await _context.Inscripciones
+                .Include(i => i.Alumno)
                 .Include(i => i.Curso)
+                .Include(i => i.Nota)
                 .FirstOrDefaultAsync(m => m.InscripcionID == id);
             if (inscripcion == null)
             {

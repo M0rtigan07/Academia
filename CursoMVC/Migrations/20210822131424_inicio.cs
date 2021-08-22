@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CursoMVC.Migrations
 {
-    public partial class init : Migration
+    public partial class inicio : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,7 @@ namespace CursoMVC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AlumnoDNI = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AlumnoApellidos = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AlumnoNombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FechaDeInscripcion = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    AlumnoNombre = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,6 +34,19 @@ namespace CursoMVC.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Curso", x => x.CursoID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Nota",
+                columns: table => new
+                {
+                    NotaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    calificacion = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nota", x => x.NotaID);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,12 +77,13 @@ namespace CursoMVC.Migrations
                 {
                     InscripcionID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    FechaDeInscripcion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CursoID = table.Column<int>(type: "int", nullable: false),
-                    AlumnoDNI = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AlumnoApellidos = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AlumnoID = table.Column<int>(type: "int", nullable: false),
+                    NotaID = table.Column<int>(type: "int", nullable: false),
+                    AlumnoApellidos = table.Column<int>(type: "int", nullable: false),
                     AlumnoNombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Nota = table.Column<int>(type: "int", nullable: true),
-                    AlumnoID = table.Column<int>(type: "int", nullable: true)
+                    calificacion = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -80,12 +93,18 @@ namespace CursoMVC.Migrations
                         column: x => x.AlumnoID,
                         principalTable: "Alumno",
                         principalColumn: "AlumnoID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Inscripcion_Curso_CursoID",
                         column: x => x.CursoID,
                         principalTable: "Curso",
                         principalColumn: "CursoID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Inscripcion_Nota_NotaID",
+                        column: x => x.NotaID,
+                        principalTable: "Nota",
+                        principalColumn: "NotaID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -103,6 +122,11 @@ namespace CursoMVC.Migrations
                 name: "IX_Inscripcion_CursoID",
                 table: "Inscripcion",
                 column: "CursoID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inscripcion_NotaID",
+                table: "Inscripcion",
+                column: "NotaID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -118,6 +142,9 @@ namespace CursoMVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "Curso");
+
+            migrationBuilder.DropTable(
+                name: "Nota");
         }
     }
 }

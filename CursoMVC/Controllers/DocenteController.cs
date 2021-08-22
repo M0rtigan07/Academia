@@ -20,10 +20,21 @@ namespace CursoMVC.Controllers
         }
 
         // GET: Docente
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string busquedaDocenteDNI, string busquedaDocente)
         {
-            var contexto = _context.Docentes.Include(d => d.Curso);
-            return View(await contexto.ToListAsync());
+            var v_docentes = from d in _context.Docentes
+                             select d;
+            v_docentes = _context.Docentes.Include(d => d.Curso);
+            if(!String.IsNullOrEmpty(busquedaDocenteDNI))
+            {
+                v_docentes = v_docentes.Where(s => s.DocenteDNI.Contains(busquedaDocenteDNI));
+            }
+
+            if(!String.IsNullOrEmpty(busquedaDocente))
+            {
+                v_docentes = v_docentes.Where(n => n.Apellidos.Contains(busquedaDocente));
+            }
+            return View(await v_docentes.ToListAsync());
         }
 
         // GET: Docente/Details/5

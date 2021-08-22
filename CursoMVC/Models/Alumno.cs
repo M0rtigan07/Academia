@@ -19,13 +19,9 @@ namespace CursoMVC.Models
         [Display(Name = "Apellidos")]
         public string AlumnoApellidos { get; set; }
         [Required(ErrorMessage = "El valor es obligatorio")]
+        [Display(Name = "Nombre")]
         public string AlumnoNombre { get; set; }
-
-        [Required(ErrorMessage = "El valor es obligatorio")]
-        [Display(Name = "Fecha de inscripción")]
-        public DateTime FechaDeInscripcion { get; set; }
-       
-        [Display(Name = "Inscripción")]
+                      
         public ICollection<Inscripcion> Inscripcion { get; set; }
 
 

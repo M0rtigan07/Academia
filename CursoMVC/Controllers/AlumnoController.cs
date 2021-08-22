@@ -20,9 +20,21 @@ namespace CursoMVC.Controllers
         }
 
         // GET: Alumno
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string busquedaAlumnoDNI,string busquedaAlumno )
         {
-            return View(await _context.Alumnos.ToListAsync());
+            var v_alumnos = from a in _context.Alumnos
+                            select a;
+            //v_alumnos = _context.Alumnos.Include(p => p.Apellidos);
+            if (!String.IsNullOrEmpty(busquedaAlumnoDNI))
+            {
+                v_alumnos = v_alumnos.Where(s => s.AlumnoDNI.Contains(busquedaAlumnoDNI));
+            }
+            if (!String.IsNullOrEmpty(busquedaAlumno))
+            {
+                v_alumnos = v_alumnos.Where(s => s.AlumnoApellidos.Contains(busquedaAlumno));
+            }
+            return View(await v_alumnos.ToListAsync());
+
         }
 
         // GET: Alumno/Details/5
@@ -54,13 +66,24 @@ namespace CursoMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AlumnoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre,FechaDeInscripcion")] Alumno alumno)
+        public async Task<IActionResult> Create([Bind("AlumnoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre")] Alumno alumno)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(alumno);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var alumn = await _context.Alumnos
+                    .FirstOrDefaultAsync(m => m.AlumnoDNI == alumno.AlumnoDNI);
+                if(alumn == null)
+                {
+                    _context.Add(alumno);
+                    await _context.SaveChangesAsync();
+                    ViewData["result"] = "";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewData["result"] = "Ya existe DNI";
+                }
+               
             }
             return View(alumno);
         }
@@ -86,7 +109,7 @@ namespace CursoMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AlumnoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre,FechaDeInscripcion")] Alumno alumno)
+        public async Task<IActionResult> Edit(int id, [Bind("AlumnoID,AlumnoDNI,AlumnoApellidos,AlumnoNombre")] Alumno alumno)
         {
             if (id != alumno.AlumnoID)
             {
